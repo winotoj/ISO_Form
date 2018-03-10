@@ -1,0 +1,286 @@
+﻿@model NCForm.Models.Issue
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Add New Non Conformance</h2>
+@using (Html.BeginForm("Save", "Form"))
+{
+    @Html.AntiForgeryToken()
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            @Html.EnumDropDownListFor(m => m.Title, "--- Choose Title ---", new { @class = "form-control", title=ModelMetadata.FromLambdaExpression(m=>m.Title, ViewData).Description })
+            @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin" >
+            @Html.EnumDropDownListFor(m => m.InitiatedBy, "--- Initiated by ---", new { @class = "form-control", title = ModelMetadata.FromLambdaExpression(m => m.InitiatedBy, ViewData).Description })
+            @Html.ValidationMessageFor(m => m.InitiatedBy, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", placeholder = "Employee Name", title = ModelMetadata.FromLambdaExpression(m => m.EmployeeName, ViewData).Description } })
+            @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            <div class='input-group date'>
+                @Html.EditorFor(m => m.DueDate, new { htmlAttributes = new { @class = "form-control datepicker1", title = ModelMetadata.FromLambdaExpression(m => m.DueDate, ViewData).Description } })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar" id="cal2"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            @Html.EditorFor(model => model.RefIsoProc, new { htmlAttributes = new { @class = "form-control", placeholder = "ISO Reference", title = ModelMetadata.FromLambdaExpression(m => m.RefIsoProc, ViewData).Description } })
+            @Html.ValidationMessageFor(model => model.RefIsoProc, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            @Html.EditorFor(model => model.CarNo, new { htmlAttributes = new { @class = "form-control", placeholder = "Car Number", title = ModelMetadata.FromLambdaExpression(m => m.CarNo, ViewData).Description } })
+            @Html.ValidationMessageFor(model => model.CarNo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin row-height">
+            <label>
+                @Html.CheckBoxFor(m => m.Correction, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                Action required
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control", placeholder = "PO Number", title = ModelMetadata.FromLambdaExpression(m => m.PurchaseOrderNo, ViewData).Description } })
+            @Html.ValidationMessageFor(model => model.PurchaseOrderNo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            @Html.EditorFor(model => model.Vendor, new { htmlAttributes = new { @class = "form-control", placeholder = "Vendor No/Name", title = ModelMetadata.FromLambdaExpression(m => m.Vendor, ViewData).Description } })
+            @Html.ValidationMessageFor(model => model.Vendor, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            @Html.EditorFor(model => model.Customer, new { htmlAttributes = new { @class = "form-control", placeholder = "Customer No/Name", title = ModelMetadata.FromLambdaExpression(m => m.Customer, ViewData).Description } })
+            @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            @Html.EditorFor(model => model.OrderEntryNo, new { htmlAttributes = new { @class = "form-control", placeholder = "OE Number", title = ModelMetadata.FromLambdaExpression(m => m.OrderEntryNo, ViewData).Description } })
+            @Html.ValidationMessageFor(model => model.OrderEntryNo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-sm-4 col-md-3 row-margin">
+            @Html.EditorFor(model => model.Carrier, new { htmlAttributes = new { @class = "form-control", placeholder = "Carrier Name", title = ModelMetadata.FromLambdaExpression(m => m.Carrier, ViewData).Description } })
+            @Html.ValidationMessageFor(model => model.Carrier, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <fieldset class="field">
+        <legend>OE, Sales and PO Issue</legend>
+        <div class="content">
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.CostErr, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.CostErr)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.Quality1, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.Quality1)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.Quality2, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.Quality2)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.Quality3, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.Quality3)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.Quality4, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.Quality4)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.CustChange, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.CustChange)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.ShipDateErr, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.ShipDateErr)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.CustMistake, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.CustMistake)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.Error1, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.Error1)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.Error2, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.Error2)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.Error3, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.Error3)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.Error4, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.Error4)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.InstErr, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.InstErr)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.PriceErr, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.PriceErr)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.AddressErr, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.AddressErr)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.Duplicate, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.Duplicate)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.SOPOther, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.SOPOther)
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="field">
+        <legend>
+            Warehouse Issue
+        </legend>
+        <div class="content">
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.DelTime, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.DelTime)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.DelTime, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.DelTime)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.DelShortShip, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.DelShortShip)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.DelOverShip, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.DelOverShip)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.PackNotAsOrdered, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.PackNotAsOrdered)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.PackNotBilingual, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.PackNotBilingual)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.PackDirty, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.PackDirty)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.DamagePallet, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.DamagePallet)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.DamageBoxesCrush, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.DamageBoxesCrush)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.DamageInTransit, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.DamageInTransit)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.PalletNotpalletized, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.PalletNotpalletized)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.PalletRcvIncorrect, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.PalletRcvIncorrect)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.WMNotAssigned, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.WMNotAssigned)
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 row-margin row-height">
+                @Html.CheckBoxFor(m => m.WhOther, new { @class = "form-control", data_toggle = "toggle", data_on = "Yes", data_off = "No" })
+                @Html.LabelFor(m => m.WhOther)
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="field">
+        <legend>
+            Description
+        </legend>
+        <div class="content">
+            <div class="col-xs-12 col-sm-6 col-md-6 row-margin">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control text-area", placeholder = "Description of issue", title = ModelMetadata.FromLambdaExpression(m => m.Description, ViewData).Description })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+            @*<div class="col-xs-12 col-sm-6 col-md-6 row-margin">
+                @Html.TextAreaFor(model => model.Action, new { @class = "form-control text-area", placeholder = "Action taken", title = ModelMetadata.FromLambdaExpression(m => m.Action, ViewData).Description })
+                @Html.ValidationMessageFor(model => model.Action, "", new { @class = "text-danger" })
+            </div>*@
+            @*<div class="col-xs-12 col-sm-4 col-md-4 row-margin">
+                @Html.TextAreaFor(model => model.QMNote, new { @class = "form-control", placeholder = "For Quality Manager Only", style = "min-height: 200px" })
+                @Html.ValidationMessageFor(model => model.QMNote, "", new { @class = "text-danger" })
+            </div>*@
+        </div>
+    </fieldset>
+    if (Model != null)
+    {
+        @Html.HiddenFor(m => m.ID);
+    }
+
+    <div class="form-group row-margin">
+        <div class="col-md-offset-6 col-md-6">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker1').datepicker({
+                format: 'yyyy-mm-dd',
+
+            });
+        });
+        $('#cal2').click(function () {
+            format: 'yyyy-mm-dd'
+            $(document).ready(function () {
+                $(".datepicker1").datepicker().focus();
+            });
+        });
+        $(function () {
+            $('legend').click(function () {
+                $(this).parent().find('.content').slideToggle("slow");
+            });
+        });
+
+    </script>
+}

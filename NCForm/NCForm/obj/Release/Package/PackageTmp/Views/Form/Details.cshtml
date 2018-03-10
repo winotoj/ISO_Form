@@ -1,0 +1,194 @@
+﻿@model  NCForm.ViewModels.DetailViewModel
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Details for @Html.DisplayFor(m => m.Title)</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Created Date
+        </dt>
+        <dd>
+            @Model.CreatedDate.ToShortDateString()
+        </dd>
+        <dt>
+            Due Date and Status
+        </dt>
+        <dd>
+            @Model.DueDate.ToShortDateString() &nbsp; <span id="isLate">@Model.IsLate</span>
+        </dd>
+        @if (Model.ClosedDate != null)
+        {
+            <dt>
+                Closed Date
+            </dt>
+            <dd>
+                @Model.ClosedDate
+            </dd>
+        }
+        <dt>
+            Initiated by
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.InitiatedBy)
+        </dd>
+        <dt>
+            Employee Name
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Employee)
+        </dd>
+        <dt>
+            Ref. ISO Proc P
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Iso)
+        </dd>
+
+        <dt>
+            Correction Action
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Correction)
+        </dd>
+        <dt>
+            CAR Number
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.CarNo)
+        </dd>
+        @if (Model.OeError.Count() != 0)
+    {
+        <dt>
+            OE/Sales/PO Issues
+        </dt>
+
+    foreach (var w in Model.OeError)
+    {
+        <dd>@Html.DisplayFor(m => w)</dd>
+}
+
+}
+        @if (Model.WhError.Count() != 0)
+    {
+        <dt>
+            Warehouse Issues
+        </dt>
+
+    foreach (var w in Model.WhError)
+    {
+        <dd>@Html.DisplayFor(m => w)</dd>
+}
+}
+        <dt>
+            Description
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Description)
+        </dd>
+        </dl>
+        <dl class="history dl-horizontal">
+        @if(Model.Histories.Count() != 0)
+        {
+       
+            foreach( var m in Model.Histories)
+            {
+                <dt>
+                    @m.MsgDate @m.Creator wrote
+                </dt>
+                <dd>
+                    @m.Message
+                    <hr />
+                </dd>               
+            }
+        }
+        </dl>
+    <dl class="dl-horizontal">
+        <dt class="edit">
+            QM Note
+        </dt>
+        <dd class="edit">
+            @Html.DisplayFor(m => m.QM)
+        </dd>
+    </dl>
+
+    <div class="editText">
+        @using (Html.BeginForm("SaveDetails", "Form"))
+    {
+        @Html.AntiForgeryToken()
+
+        <hr />
+        <fieldset class="field">
+            <legend>
+                Action And QM note
+            </legend>
+            <div class="content">
+                @if (Model.Status.ToString().Equals("InProgress"))
+            {
+                <div class="col-xs-12 col-sm-6 col-md-6 row-margin">
+                    @Html.TextAreaFor(m => m.Message, new { @class = "form-control text-area", placeholder = "Action", title = ModelMetadata.FromLambdaExpression(m => m.Message, ViewData).Description })
+                    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                </div>
+        }
+                <div class="col-xs-12 col-sm-6 col-md-6 row-margin">
+                    @Html.TextAreaFor(model => model.QM, new { @class = "form-control text-area", placeholder = "For Quality Manager Only", title = ModelMetadata.FromLambdaExpression(m => m.QM, ViewData).Description })
+                    @Html.ValidationMessageFor(model => model.QM, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </fieldset>
+        if (Model.Status.ToString().Equals("InProgress"))
+        {
+        <div class="form-group row-margin">
+            <div class="col-xs-12 col-sm-4 col-md-3">
+                @Html.EnumDropDownListFor(m => m.Status, new { @class = "form-control" })
+
+            </div>
+        </div>
+        }
+        if (Model != null)
+        {
+        @Html.HiddenFor(m => m.ID);
+}
+    <div class="form-group row-margin">
+        <div class="button-group">
+            <button type="button" class="btn-primary" onclick="goBack()">Back</button>
+            <button type="reset" class="btn-primary">Reset</button>
+            <button type="submit" class="btn-primary">Save</button>
+        </div>
+    </div>
+}
+    </div>
+    </div>
+<p>
+
+    <div class="button-group edit">
+        <button type="button" class="btn-primary" onclick="goBack()">Back</button>
+        <button type="button" class="btn-primary" id="edit">Edit</button>
+    </div>
+</p>
+
+@section Scripts{
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('.editText').hide();
+        });
+        $("#edit").click(function () {
+            $(".edit, .editText").toggle();
+        });
+        function goBack() {
+            window.history.back();
+        }
+        $(function () {
+            $('legend').click(function () {
+                $(this).parent().find('.content').slideToggle("slow");
+            });
+        });
+        $(function () {
+            $("#isLate:contains('late')").css("color", "red");
+        });
+       </script>
+}

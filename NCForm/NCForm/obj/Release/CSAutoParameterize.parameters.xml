@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="NonConformanceContext-Web.config Connection String" description="NonConformanceContext Connection String used in web.config by the application to access the database." defaultValue="Data Source=(localDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\NCContext.mdf;Integrated Security=SSPI;user ID=dorfin_nc; password=M!nx!208" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\NCForm\\NCForm\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='NonConformanceContext']/@connectionString" />
+  </parameter>
+  <parameter name="NonConformanceContext_DatabasePublish-Web.config Connection String" description="NonConformanceContext_DatabasePublish Connection String used in web.config by the application to access the database." defaultValue="NonConformanceContext_DatabasePublish.ConnetionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\NCForm\\NCForm\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='NonConformanceContext_DatabasePublish']/@connectionString" />
+  </parameter>
+</parameters>
